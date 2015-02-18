@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Мой калькулятор</string>
+    <string name="app_name">Калькулятор</string>
     <string name="action_settings">Настройка</string>
     <string name="num1">Операнд 1</string>
     <string name="num2">Операнд 2</string>
@@ -12,7 +12,7 @@
     <string name="mult">Умножение</string>
     <string name="go">Считать</string>
     <string name="result_format">Результат: %.2f</string>
-    <string name="incorrect_operand">Неверный операнд</string>
+    <string name="incorrect_operand">Неверный операнд 2</string>
     <string name="incorrect_operator">Неверный оператор</string>
     <string name="operator_not_select">Оператор не выбран</string>
 </resources>

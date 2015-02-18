@@ -1,5 +1,6 @@
 package by.minsk.angurets.calculator;
 
+import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CalculatorActivity extends ActionBarActivity {
 
@@ -50,9 +50,14 @@ public class CalculatorActivity extends ActionBarActivity {
             try {
                 switch (mRadioGroup.getCheckedRadioButtonId()) {
                     case View.NO_ID:
-                        Toast.makeText(
-                                CalculatorActivity.this, R.string.operator_not_select, Toast.LENGTH_SHORT)
-                                .show();
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(CalculatorActivity.this);
+                        builder.setMessage(R.string.operator_not_select);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+//                        Toast.makeText(
+//                                CalculatorActivity.this, R.string.operator_not_select, Toast.LENGTH_SHORT)
+//                                .show();
                     case R.id.operator_sum:
                         result(new Calculation(getDouble(mNum1EditText), getDouble(mNum2EditText))
                                 .sum());
@@ -74,10 +79,15 @@ public class CalculatorActivity extends ActionBarActivity {
                 }
             } catch (IllegalArgumentException e) {
                 if (!TextUtils.isEmpty(mResult.getText())) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(CalculatorActivity.this);
+                    builder.setMessage(R.string.incorrect_operand);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
-                Toast.makeText(
-                        CalculatorActivity.this, R.string.incorrect_operand, Toast.LENGTH_SHORT
-                ).show();
+//                Toast.makeText(
+//                        CalculatorActivity.this, R.string.incorrect_operand, Toast.LENGTH_SHORT
+//                ).show();
             }
         }
     }

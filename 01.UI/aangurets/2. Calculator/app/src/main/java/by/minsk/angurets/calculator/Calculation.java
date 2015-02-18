@@ -1,6 +1,5 @@
 package by.minsk.angurets.calculator;
 
-
 public class Calculation {
     public double mOperand1;
     public double mOperand2;
@@ -19,7 +18,7 @@ public class Calculation {
     }
 
     public double division() {
-        if (mOperand1 == 0) {
+        if (mOperand2 == 0) {
             throw new IllegalArgumentException();
         } else return mOperand1 / mOperand2;
     }
@@ -27,5 +26,4 @@ public class Calculation {
     public double multiplication() {
         return mOperand1 * mOperand2;
     }
-
 }
