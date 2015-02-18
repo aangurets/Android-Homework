@@ -1,6 +1,8 @@
 package by.minsk.angurets.mywebbrowser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -24,6 +26,7 @@ public class BrowserActivity extends ActionBarActivity {
     private String mTempURI;
     private WebView mWebView;
     public static final String PREFIX = "http://";
+    public static final String URL = "URL";
 
 
     @Override
@@ -38,6 +41,13 @@ public class BrowserActivity extends ActionBarActivity {
         mHistoryButton = (ImageButton) findViewById(R.id.history_button);
         mWebView = (WebView) findViewById(R.id.webView);
 
+        if (savedInstanceState == null) {
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            if (preferences.contains(URL)) {
+                String url = preferences.getString(URL, null);
+                mWebView.loadUrl(url);
+            }
+        }
         mBackButton.setEnabled(false);
         mForwardButton.setEnabled(false);
 
@@ -88,11 +98,21 @@ public class BrowserActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        if (isFinishing()) {
+            SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(URL, mWebView.getUrl());
+            editor.apply();
+        }
+        super.onDestroy();
+    }
+
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         mTempURI = mWebView.getUrl();
         state.putString("url", mTempURI);
-
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
