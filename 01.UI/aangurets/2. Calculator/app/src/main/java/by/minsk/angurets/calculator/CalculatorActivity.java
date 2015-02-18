@@ -1,6 +1,7 @@
 package by.minsk.angurets.calculator;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -45,19 +46,48 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     private class OnComputingClickListener implements View.OnClickListener {
+
+        public void operatorNotSelect() {
+            final AlertDialog.Builder builder =
+                    new AlertDialog.Builder(CalculatorActivity.this);
+            builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            builder.setTitle(R.string.error_operator_not_select).setMessage(R.string.operator_not_select);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+        ;
+
+        public void incorrectOperand() {
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(CalculatorActivity.this);
+            builder.setTitle(R.string.error_incorrect_operand)
+                    .setMessage(R.string.incorrect_operand);
+            builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+        ;
+
         @Override
         public void onClick(View v) {
             try {
                 switch (mRadioGroup.getCheckedRadioButtonId()) {
                     case View.NO_ID:
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(CalculatorActivity.this);
-                        builder.setMessage(R.string.operator_not_select);
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-//                        Toast.makeText(
-//                                CalculatorActivity.this, R.string.operator_not_select, Toast.LENGTH_SHORT)
-//                                .show();
+                        operatorNotSelect();
                     case R.id.operator_sum:
                         result(new Calculation(getDouble(mNum1EditText), getDouble(mNum2EditText))
                                 .sum());
@@ -75,19 +105,12 @@ public class CalculatorActivity extends ActionBarActivity {
                                 .multiplication());
                         return;
                     default:
-                        throw new RuntimeException("Unknown operator ID");
+                        operatorNotSelect();
                 }
             } catch (IllegalArgumentException e) {
                 if (!TextUtils.isEmpty(mResult.getText())) {
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(CalculatorActivity.this);
-                    builder.setMessage(R.string.incorrect_operand);
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    incorrectOperand();
                 }
-//                Toast.makeText(
-//                        CalculatorActivity.this, R.string.incorrect_operand, Toast.LENGTH_SHORT
-//                ).show();
             }
         }
     }

@@ -12,7 +12,9 @@
     <string name="mult">Умножение</string>
     <string name="go">Считать</string>
     <string name="result_format">Результат: %.2f</string>
-    <string name="incorrect_operand">Неверный операнд 2</string>
+    <string name="incorrect_operand">Неверный операнд</string>
     <string name="incorrect_operator">Неверный оператор</string>
-    <string name="operator_not_select">Оператор не выбран</string>
+    <string name="operator_not_select">Оператор не выбран. Пожалуйста, сделайте выбор.</string>
+    <string name="error_operator_not_select">ОШИБКА - ОПЕРАТОР НЕ ВЫБРАН</string>
+    <string name="error_incorrect_operand">ОШИБКА - Неверный операнд</string>
 </resources>
