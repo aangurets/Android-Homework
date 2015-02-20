@@ -7,7 +7,7 @@ public class HistoryStorage {
 
     public static List<String> mHistoryItems = new ArrayList<>();
 
-    public static List<String> getmHistoryItems() {
+    public static List<String> getHistoryItems() {
         return mHistoryItems;
     }
 

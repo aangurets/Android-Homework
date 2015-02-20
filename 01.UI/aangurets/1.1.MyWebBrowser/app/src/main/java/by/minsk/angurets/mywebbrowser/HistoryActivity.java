@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HistoryActivity extends ActionBarActivity {
 
-    private List<String> historyItems = HistoryStorage.getmHistoryItems();
+    private List<String> historyItems = HistoryStorage.getHistoryItems();
     private ListView mListView;
 
     @Override
