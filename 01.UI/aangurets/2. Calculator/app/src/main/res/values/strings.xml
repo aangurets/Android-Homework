@@ -12,6 +12,7 @@
     <string name="mult">Умножение</string>
     <string name="go">Считать</string>
     <string name="result_format">Результат: %.2f</string>
+    <string name="history">История</string>
     <string name="incorrect_operand">Неверный операнд</string>
     <string name="incorrect_operator">Неверный оператор</string>
     <string name="operator_not_select">Оператор не выбран. Пожалуйста, сделайте выбор.</string>

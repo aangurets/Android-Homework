@@ -16,4 +16,5 @@
     <string name="result_format">Result: %.2f</string>
     <string name="error_operator_not_select">ERROR - OPERATOR NOT SELECT</string>
     <string name="error_incorrect_operand">ERROR - INCORRECT OPERAND</string>
+    <string name="history">History</string>
 </resources>

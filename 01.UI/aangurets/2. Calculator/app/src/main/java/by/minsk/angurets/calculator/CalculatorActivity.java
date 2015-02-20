@@ -2,11 +2,13 @@ package by.minsk.angurets.calculator;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ public class CalculatorActivity extends ActionBarActivity {
     EditText mNum2EditText;
     TextView mResult;
     RadioGroup mRadioGroup;
+    Button mHistoryButton;
     final static String RESULT = "result";
 
     @Override
@@ -28,6 +31,14 @@ public class CalculatorActivity extends ActionBarActivity {
         mNum2EditText = (EditText) findViewById(R.id.num2);
         mResult = (TextView) findViewById(R.id.result);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        mHistoryButton = (Button) findViewById(R.id.history_button);
+        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CalculatorActivity.this, HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
 
         findViewById(R.id.compute_button).setOnClickListener(new OnComputingClickListener());
     }
@@ -89,20 +100,30 @@ public class CalculatorActivity extends ActionBarActivity {
                     case View.NO_ID:
                         operatorNotSelect();
                     case R.id.operator_sum:
-                        result(new Calculation(getDouble(mNum1EditText), getDouble(mNum2EditText))
-                                .sum());
+                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '+',
+                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .sum())));
                         return;
                     case R.id.operator_subtr:
-                        result(new Calculation(getDouble(mNum1EditText), getDouble(mNum2EditText))
-                                .subtraction());
+                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '-',
+                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .subtraction())));
+
                         return;
                     case R.id.operator_div:
-                        result(new Calculation(getDouble(mNum1EditText), getDouble(mNum2EditText))
-                                .division());
+                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '/',
+                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .division())));
                         return;
                     case R.id.operator_mult:
-                        result(new Calculation(getDouble(mNum1EditText), getDouble(mNum2EditText))
-                                .multiplication());
+                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '*',
+                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .multiplication())));
+
                         return;
                     default:
                         operatorNotSelect();
@@ -115,10 +136,11 @@ public class CalculatorActivity extends ActionBarActivity {
         }
     }
 
-    public void result(double doubleResult) {
+    public double result(double doubleResult) {
         String mStringResult;
         mStringResult = getString(R.string.result_format, doubleResult);
         mResult.setText(mStringResult);
+        return doubleResult;
     }
 
     @Override
