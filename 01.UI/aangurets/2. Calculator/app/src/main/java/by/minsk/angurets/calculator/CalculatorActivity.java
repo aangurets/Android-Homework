@@ -100,29 +100,25 @@ public class CalculatorActivity extends ActionBarActivity {
                     case View.NO_ID:
                         operatorNotSelect();
                     case R.id.operator_sum:
-                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '+',
-                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                        addToHistoryItemsStorage('+', result(new Calculation(getDouble(mNum1EditText),
                                 getDouble(mNum2EditText))
-                                .sum())));
+                                .sum()));
                         return;
                     case R.id.operator_subtr:
-                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '-',
-                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                        addToHistoryItemsStorage('-', result(new Calculation(getDouble(mNum1EditText),
                                 getDouble(mNum2EditText))
-                                .subtraction())));
+                                .subtraction()));
 
                         return;
                     case R.id.operator_div:
-                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '/',
-                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                        addToHistoryItemsStorage('/', result(new Calculation(getDouble(mNum1EditText),
                                 getDouble(mNum2EditText))
-                                .division())));
+                                .division()));
                         return;
                     case R.id.operator_mult:
-                        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), '*',
-                                getDouble(mNum2EditText), result(new Calculation(getDouble(mNum1EditText),
+                        addToHistoryItemsStorage('*', result(new Calculation(getDouble(mNum1EditText),
                                 getDouble(mNum2EditText))
-                                .multiplication())));
+                                .multiplication()));
 
                         return;
                     default:
@@ -134,6 +130,11 @@ public class CalculatorActivity extends ActionBarActivity {
                 }
             }
         }
+    }
+
+    public void addToHistoryItemsStorage(char operator, double result) {
+        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), operator,
+                getDouble(mNum2EditText), result));
     }
 
     public double result(double doubleResult) {

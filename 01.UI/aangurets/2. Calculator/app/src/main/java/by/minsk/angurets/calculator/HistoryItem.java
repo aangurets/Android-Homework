@@ -15,7 +15,7 @@ public class HistoryItem {
 
     @Override
     public String toString() {
-        return "Operation:" + mOperand1 + " " +
+        return "Operation: " + mOperand1 + " " +
                 mOperator + " " +
                 mOperand2 +
                 " = " + mResult;
