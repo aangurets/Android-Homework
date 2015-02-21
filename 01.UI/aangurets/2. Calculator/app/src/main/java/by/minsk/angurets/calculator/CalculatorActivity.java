@@ -3,6 +3,7 @@ package by.minsk.angurets.calculator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CalculatorActivity extends ActionBarActivity {
 
@@ -25,7 +27,7 @@ public class CalculatorActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.calculator_activity);
 
         mNum1EditText = (EditText) findViewById(R.id.num1);
         mNum2EditText = (EditText) findViewById(R.id.num2);
@@ -40,7 +42,12 @@ public class CalculatorActivity extends ActionBarActivity {
             }
         });
 
-        findViewById(R.id.compute_button).setOnClickListener(new OnComputingClickListener());
+        findViewById(R.id.compute_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CalculatorAsyncTask().execute();
+            }
+        });
     }
 
     private static double getDouble(TextView textView) {
@@ -56,81 +63,40 @@ public class CalculatorActivity extends ActionBarActivity {
         }
     }
 
-    private class OnComputingClickListener implements View.OnClickListener {
-
-        public void operatorNotSelect() {
-            final AlertDialog.Builder builder =
-                    new AlertDialog.Builder(CalculatorActivity.this);
-            builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
+    public void operatorNotSelect() {
+        final AlertDialog.Builder builder =
+                new AlertDialog.Builder(CalculatorActivity.this);
+        builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
-            );
-            builder.setTitle(R.string.error_operator_not_select).setMessage(R.string.operator_not_select);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-
-        ;
-
-        public void incorrectOperand() {
-            AlertDialog.Builder builder =
-                    new AlertDialog.Builder(CalculatorActivity.this);
-            builder.setTitle(R.string.error_incorrect_operand)
-                    .setMessage(R.string.incorrect_operand);
-            builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    }
-            );
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-
-        ;
-
-        @Override
-        public void onClick(View v) {
-            try {
-                switch (mRadioGroup.getCheckedRadioButtonId()) {
-                    case View.NO_ID:
-                        operatorNotSelect();
-                    case R.id.operator_sum:
-                        addToHistoryItemsStorage('+', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .sum()));
-                        return;
-                    case R.id.operator_subtr:
-                        addToHistoryItemsStorage('-', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .subtraction()));
-
-                        return;
-                    case R.id.operator_div:
-                        addToHistoryItemsStorage('/', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .division()));
-                        return;
-                    case R.id.operator_mult:
-                        addToHistoryItemsStorage('*', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .multiplication()));
-
-                        return;
-                    default:
-                        operatorNotSelect();
                 }
-            } catch (IllegalArgumentException e) {
-                if (!TextUtils.isEmpty(mResult.getText())) {
-                    incorrectOperand();
-                }
-            }
-        }
+        );
+        builder.setTitle(R.string.error_operator_not_select).setMessage(R.string.operator_not_select);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
+    ;
+
+    public void incorrectOperand() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(CalculatorActivity.this);
+        builder.setTitle(R.string.error_incorrect_operand)
+                .setMessage(R.string.incorrect_operand);
+        builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }
+        );
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    ;
 
     public void addToHistoryItemsStorage(char operator, double result) {
         HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), operator,
@@ -154,6 +120,49 @@ public class CalculatorActivity extends ActionBarActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mResult.setText(savedInstanceState.getCharSequence(RESULT));
+    }
+
+    public class CalculatorAsyncTask extends AsyncTask<Void, Integer, Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                switch (mRadioGroup.getCheckedRadioButtonId()) {
+                    case View.NO_ID:
+                        operatorNotSelect();
+                        return null;
+                    case R.id.operator_sum:
+                        addToHistoryItemsStorage('+', result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .sum()));
+                        return null;
+                    case R.id.operator_subtr:
+                        addToHistoryItemsStorage('-', result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .subtraction()));
+                        return null;
+                    case R.id.operator_div:
+                        addToHistoryItemsStorage('/', result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .division()));
+                        return null;
+                    case R.id.operator_mult:
+                        addToHistoryItemsStorage('*', result(new Calculation(getDouble(mNum1EditText),
+                                getDouble(mNum2EditText))
+                                .multiplication()));
+                        return null;
+                    default:
+                        operatorNotSelect();
+                        return null;
+                }
+            } catch (IllegalArgumentException e) {
+                if (TextUtils.isEmpty(mResult.getText())) {
+                    incorrectOperand();
+                }
+            }
+            return null;
+        }
     }
 }
 

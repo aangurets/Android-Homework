@@ -93,18 +93,18 @@
         android:layout_height="wrap_content"
         android:text="@string/go"
         android:id="@+id/compute_button"
-        android:layout_below="@+id/radio_group"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/progressBar"
+        android:layout_alignLeft="@+id/history_button"
+        android:layout_alignStart="@+id/history_button"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/history"
         android:id="@+id/history_button"
+        android:layout_marginBottom="55dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/result"
-        android:layout_alignStart="@+id/result"
-        android:layout_marginBottom="68dp"/>
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/result"
@@ -112,6 +112,15 @@
         android:layout_height="wrap_content"
         android:text="@string/result_format"
         android:layout_below="@+id/compute_button"
-        android:layout_alignLeft="@+id/oper"
-        android:layout_alignStart="@+id/oper"/>
+        android:layout_centerHorizontal="true"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/radio_group"
+        android:layout_alignLeft="@+id/compute_button"
+        android:layout_alignStart="@+id/compute_button"/>
+
 </RelativeLayout>

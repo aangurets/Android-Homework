@@ -17,4 +17,6 @@
     <string name="error_operator_not_select">ERROR - OPERATOR NOT SELECT</string>
     <string name="error_incorrect_operand">ERROR - INCORRECT OPERAND</string>
     <string name="history">History</string>
+    <string name="begin_to_calculate">Begin to calculate</string>
+    <string name="end_to_calculate">Ent to calculate</string>
 </resources>

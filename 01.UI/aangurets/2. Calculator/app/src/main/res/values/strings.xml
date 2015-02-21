@@ -18,4 +18,6 @@
     <string name="operator_not_select">Оператор не выбран. Пожалуйста, сделайте выбор.</string>
     <string name="error_operator_not_select">ОШИБКА - ОПЕРАТОР НЕ ВЫБРАН</string>
     <string name="error_incorrect_operand">ОШИБКА - Неверный операнд</string>
+    <string name="begin_to_calculate">Начинаю считать</string>
+    <string name="end_to_calculate">Подсчет окончен</string>
 </resources>
