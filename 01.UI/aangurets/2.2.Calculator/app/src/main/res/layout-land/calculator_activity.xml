@@ -30,7 +30,7 @@
         android:layout_centerInParent="true"/>
 
     <EditText
-        android:id="@+id/num1"
+        android:id="@+id/operand1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/fake_view"
@@ -40,7 +40,7 @@
         android:inputType="number"/>
 
     <EditText
-        android:id="@+id/num2"
+        android:id="@+id/operand2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/oper"
@@ -54,7 +54,7 @@
         android:id="@+id/radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/num1"
+        android:layout_below="@+id/operand1"
         android:layout_centerHorizontal="true">
 
         <RadioButton

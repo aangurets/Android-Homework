@@ -17,20 +17,20 @@ import android.widget.Toast;
 
 public class CalculatorActivity extends ActionBarActivity {
 
-    EditText mNum1EditText;
-    EditText mNum2EditText;
+    EditText mOperand1EditText;
+    EditText mOperand2EditText;
     TextView mResult;
     RadioGroup mRadioGroup;
     Button mHistoryButton;
-    final static String RESULT = "result";
+    final static String RESULT = "setResult";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculator_activity);
 
-        mNum1EditText = (EditText) findViewById(R.id.num1);
-        mNum2EditText = (EditText) findViewById(R.id.num2);
+        mOperand1EditText = (EditText) findViewById(R.id.operand1);
+        mOperand2EditText = (EditText) findViewById(R.id.operand2);
         mResult = (TextView) findViewById(R.id.result);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
         mHistoryButton = (Button) findViewById(R.id.history_button);
@@ -45,22 +45,39 @@ public class CalculatorActivity extends ActionBarActivity {
         findViewById(R.id.compute_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CalculatorAsyncTask().execute();
+                Compute operator = receivingOperator();
+                if (operator == null) {
+                    Toast.makeText(CalculatorActivity.this, R.string.incorrect_operator, Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    new CalculatorAsyncTask(mOperand1EditText.getText(), mOperand2EditText.getText())
+                            .execute(operator);
+                }
             }
         });
     }
 
-    private static double getDouble(TextView textView) {
-        CharSequence text = textView.getText();
-        if (TextUtils.isEmpty(text)) {
-            throw new IllegalArgumentException();
-        } else {
-            try {
-                return Double.parseDouble(text.toString());
-            } catch (Exception e) {
-                throw new IllegalArgumentException();
-            }
+    private Compute receivingOperator() {
+        switch (mRadioGroup.getCheckedRadioButtonId()) {
+            case View.NO_ID:
+                operatorNotSelect();
+                return null;
+            case R.id.operator_sum:
+                return Calculation.SUM;
+            case R.id.operator_subtr:
+                return Calculation.SUBTRACTION;
+            case R.id.operator_div:
+                return Calculation.DIVISION;
+            case R.id.operator_mult:
+                return Calculation.MULTIPLICATION;
+            default:
+                operatorNotSelect();
+                return null;
         }
+    }
+
+    public void setResult(double doubleResult) {
+        mResult.setText(getString(R.string.result_format, doubleResult));
     }
 
     public void operatorNotSelect() {
@@ -80,36 +97,6 @@ public class CalculatorActivity extends ActionBarActivity {
 
     ;
 
-    public void incorrectOperand() {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(CalculatorActivity.this);
-        builder.setTitle(R.string.error_incorrect_operand)
-                .setMessage(R.string.incorrect_operand);
-        builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                }
-        );
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    ;
-
-    public void addToHistoryItemsStorage(char operator, double result) {
-        HistoryItemsStorage.add(new HistoryItem(getDouble(mNum1EditText), operator,
-                getDouble(mNum2EditText), result));
-    }
-
-    public double result(double doubleResult) {
-        String mStringResult;
-        mStringResult = getString(R.string.result_format, doubleResult);
-        mResult.setText(mStringResult);
-        return doubleResult;
-    }
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -122,47 +109,53 @@ public class CalculatorActivity extends ActionBarActivity {
         mResult.setText(savedInstanceState.getCharSequence(RESULT));
     }
 
-    public class CalculatorAsyncTask extends AsyncTask<Void, Integer, Void> {
+    private class CalculatorAsyncTask extends AsyncTask<Compute, Float, Double> {
+        private final CharSequence mOperand1;
+        private final CharSequence mOperand2;
 
+        private CalculatorAsyncTask(CharSequence operand1, CharSequence operand2) {
+            mOperand1 = operand1;
+            mOperand2 = operand2;
+        }
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                switch (mRadioGroup.getCheckedRadioButtonId()) {
-                    case View.NO_ID:
-                        operatorNotSelect();
-                        return null;
-                    case R.id.operator_sum:
-                        addToHistoryItemsStorage('+', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .sum()));
-                        return null;
-                    case R.id.operator_subtr:
-                        addToHistoryItemsStorage('-', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .subtraction()));
-                        return null;
-                    case R.id.operator_div:
-                        addToHistoryItemsStorage('/', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .division()));
-                        return null;
-                    case R.id.operator_mult:
-                        addToHistoryItemsStorage('*', result(new Calculation(getDouble(mNum1EditText),
-                                getDouble(mNum2EditText))
-                                .multiplication()));
-                        return null;
-                    default:
-                        operatorNotSelect();
-                        return null;
-                }
-            } catch (IllegalArgumentException e) {
-                if (TextUtils.isEmpty(mResult.getText())) {
-                    incorrectOperand();
+        private double getDouble(CharSequence text) {
+            if (TextUtils.isEmpty(text)) {
+                throw new IllegalArgumentException();
+            } else {
+                try {
+                    return Double.parseDouble(text.toString());
+                } catch (Exception e) {
+                    throw new IllegalArgumentException();
                 }
             }
-            return null;
+        }
+
+        @Override
+        protected Double doInBackground(Compute... params) {
+            try {
+                final double result =
+                        params[0].compute(getDouble(mOperand1), getDouble(mOperand2));
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Double result) {
+            if (result != null) {
+                setResult(result);
+            } else {
+                if (!TextUtils.isEmpty(mResult.getText())) {
+                }
+                Toast.makeText(
+                        CalculatorActivity.this, R.string.incorrect_operand, Toast.LENGTH_SHORT
+                ).show();
+            }
         }
     }
 }
+
+
 
