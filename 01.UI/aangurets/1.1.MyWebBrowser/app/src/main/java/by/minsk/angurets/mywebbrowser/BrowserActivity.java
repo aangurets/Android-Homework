@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 public class BrowserActivity extends ActionBarActivity {
 
-    private EditText mUri;
+    private EditText mUrl;
     private ImageButton mOpenButton;
     private ImageButton mBackButton;
     private ImageButton mForwardButton;
@@ -34,7 +34,7 @@ public class BrowserActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browser_layout);
 
-        mUri = (EditText) findViewById(R.id.uri);
+        mUrl = (EditText) findViewById(R.id.url);
         mOpenButton = (ImageButton) findViewById(R.id.open_button);
         mBackButton = (ImageButton) findViewById(R.id.back_button);
         mForwardButton = (ImageButton) findViewById(R.id.forward_button);
@@ -57,12 +57,12 @@ public class BrowserActivity extends ActionBarActivity {
         mOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HistoryStorage.addToHistoryItems(mUri.getText().toString());
+                HistoryStorage.addToHistoryItems(mUrl.getText().toString());
                 mBackButton.setEnabled(true);
-                if (mUri.getText().toString().startsWith(PREFIX)) {
-                    mWebView.loadUrl(mUri.getText().toString());
+                if (mUrl.getText().toString().startsWith(PREFIX)) {
+                    mWebView.loadUrl(mUrl.getText().toString());
                 } else {
-                    mWebView.loadUrl(PREFIX + mUri.getText().toString());
+                    mWebView.loadUrl(PREFIX + mUrl.getText().toString());
                 }
             }
         });
@@ -74,7 +74,9 @@ public class BrowserActivity extends ActionBarActivity {
                     mWebView.goBack();
                 } else {
                     mBackButton.setEnabled(false);
-                    Toast.makeText(BrowserActivity.this, "You can't go back!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            BrowserActivity.this, R.string.show_back, Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -85,7 +87,9 @@ public class BrowserActivity extends ActionBarActivity {
                     mWebView.goForward();
                 } else {
                     mForwardButton.setEnabled(false);
-                    Toast.makeText(BrowserActivity.this, "You can't go forward!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            BrowserActivity.this, R.string.show_forward, Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -119,6 +123,6 @@ public class BrowserActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
         mTempURI = savedInstanceState.getString("url");
         mWebView.loadUrl(mTempURI);
-        mUri.setText(mTempURI);
+        mUrl.setText(mTempURI);
     }
 }
