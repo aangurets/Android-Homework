@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyWebBrowser</string>
+    <string name="go">Go!</string>
+    <string name="http">http://</string>
+    <string name="show">proceed...</string>
+    <string name="show_back">I can not go back, sorry</string>
+    <string name="show_forward">I can not go forward, sorry</string>
+</resources>

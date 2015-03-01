@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Мой браузер</string>
+    <string name="go">Вперед!</string>
+    <string name="http">http://</string>
+    <string name="show">перехожу...</string>
+    <string name="show_back">не могу перейти назад, прости</string>
+    <string name="show_forward">не могу перейти вперед, прости</string>
+</resources>
