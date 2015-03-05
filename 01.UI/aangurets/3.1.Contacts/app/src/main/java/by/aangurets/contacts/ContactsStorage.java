@@ -22,4 +22,8 @@ public class ContactsStorage {
         fillingStorage();
         return mContacts;
     }
+
+    public static void add(Contact contact) {
+        mContacts.add(contact);
+    }
 }
