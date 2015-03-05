@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Application Contacts</string>
+    <string name="edit_contact_form">Contact Edit Form</string>
+    <string name="review_contact">Contact Review Form</string>
+    <string name="Surname">Surname</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="date">Date</string>
+    <string name="occupation">Occupation</string>
+    <string name="save_contact">Save contact</string>
+    <string name="edit_contact">Edit contact</string>
+    <string name="name_contact">Name</string>
+    <string name="phone_contact">phone contact</string>
+    <string name="edit">Edit</string>
+    <string name="review">Review</string>
+    <string name="email">Email</string>
+</resources>
