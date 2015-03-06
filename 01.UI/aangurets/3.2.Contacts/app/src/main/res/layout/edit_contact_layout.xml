@@ -45,10 +45,4 @@
         android:layout_height="wrap_content"
         android:id="@+id/occupationEditText"
         android:text="@string/occupation"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save_contact"
-        android:id="@+id/save_button"/>
 </LinearLayout>

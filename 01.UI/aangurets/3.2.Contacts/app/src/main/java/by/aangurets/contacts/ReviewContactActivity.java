@@ -3,8 +3,9 @@ package by.aangurets.contacts;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.List;
@@ -29,8 +30,6 @@ public class ReviewContactActivity extends Activity {
     TextView mDate;
     @InjectView(R.id.occupationTextView)
     TextView mOccupation;
-    @InjectView(R.id.edit_button)
-    Button mEditButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +42,6 @@ public class ReviewContactActivity extends Activity {
         Contact contact = mContacts.get(mContactPosition);
         fillingFields(contact);
 
-        mEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ReviewContactActivity.this, EditContactActivity.class);
-                intent.putExtra(ID_SELECTED_CONTACT, mContactPosition);
-                startActivity(intent);
-            }
-        });
     }
 
     public void fillingFields(Contact contact) {
@@ -62,4 +53,22 @@ public class ReviewContactActivity extends Activity {
         mOccupation.setText(contact.getOccupation());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.review_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_contact:
+                Intent intent = new Intent(ReviewContactActivity.this, EditContactActivity.class);
+                intent.putExtra(ID_SELECTED_CONTACT, mContactPosition);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

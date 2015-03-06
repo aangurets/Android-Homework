@@ -14,4 +14,7 @@
     <string name="edit">Edit</string>
     <string name="review">Review</string>
     <string name="email">Email</string>
+    <string name="add_contact">Add contact</string>
+    <string name="delete_contact">Delete</string>
+    <string name="agree">Agree</string>
 </resources>

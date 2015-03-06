@@ -3,8 +3,9 @@ package by.aangurets.contacts;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import java.util.List;
@@ -16,7 +17,8 @@ import by.aangurets.contacts.model.Contact;
 public class EditContactActivity extends Activity {
 
     private int mContactPosition;
-    static final String ID_SELECTED_CONTACT = "selected contact";
+    private Contact mContact;
+    static final String ID_SELECTED_CONTACT = "selected mContact";
     @InjectView(R.id.nameEditText)
     EditText mName;
     @InjectView(R.id.surnameEditText)
@@ -29,8 +31,6 @@ public class EditContactActivity extends Activity {
     EditText mDate;
     @InjectView(R.id.occupationEditText)
     EditText mOccupation;
-    @InjectView(R.id.save_button)
-    Button mSaveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +40,8 @@ public class EditContactActivity extends Activity {
         List<Contact> mContacts = ContactsStorage.getAll();
         setTitle(R.string.edit_contact);
         mContactPosition = getIntent().getIntExtra(ID_SELECTED_CONTACT, 0);
-        final Contact contact = mContacts.get(mContactPosition);
-        fillingFields(contact);
-
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dubbingContact(contact);
-                Intent intent = new Intent(EditContactActivity.this, ContactListActivity.class);
-                startActivity(intent);
-            }
-        });
+        mContact = mContacts.get(mContactPosition);
+        fillingFields(mContact);
     }
 
     public void fillingFields(Contact contact) {
@@ -68,5 +59,24 @@ public class EditContactActivity extends Activity {
         contact.setPhone(mPhone.getText().toString());
         contact.setEmail(mEmail.getText().toString());
         contact.setOccupation(mOccupation.getText().toString());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.edit_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save_contact:
+                dubbingContact(mContact);
+                Intent intent = new Intent(EditContactActivity.this, ContactListActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

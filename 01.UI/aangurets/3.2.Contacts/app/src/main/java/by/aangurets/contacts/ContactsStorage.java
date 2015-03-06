@@ -19,7 +19,14 @@ public class ContactsStorage {
 
 
     public static List<Contact> getAll() {
-        fillingStorage();
+        if (mContacts.size() == 0) {fillingStorage();}
         return mContacts;
+    }
+
+    public static void addContact(Contact contact) {
+        mContacts.add(contact);
+    }
+    public static void deleteContact() {
+        mContacts.remove(mContacts.size()-1);
     }
 }

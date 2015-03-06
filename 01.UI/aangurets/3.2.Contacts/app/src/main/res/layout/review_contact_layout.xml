@@ -36,8 +36,4 @@
         android:id="@+id/occupationTextView"
         android:text="@string/occupation"/>
 
-    <Button
-        style="@style/TextStyle"
-        android:text="@string/edit_contact"
-        android:id="@+id/edit_button"/>
 </LinearLayout>

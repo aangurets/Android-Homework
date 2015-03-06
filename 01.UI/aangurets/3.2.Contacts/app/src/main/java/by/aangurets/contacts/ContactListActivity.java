@@ -3,6 +3,9 @@ package by.aangurets.contacts;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -17,6 +20,30 @@ public class ContactListActivity extends Activity {
     private static List<Contact> mContactsList = new ArrayList<>();
     BaseAdapter mAdapter;
     static final String ID_SELECTED_CONTACT = "selected contact";
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_contact:
+                ContactsStorage.addContact(Contact.generateNewContact());
+                mAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.delete_contact:
+                return true;
+            case R.id.agree:
+                ContactsStorage.deleteContact();
+                mAdapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.contact_list_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,5 +67,9 @@ public class ContactListActivity extends Activity {
         });
     }
 
-
+    @Override
+    protected void onStop() {
+        mAdapter.notifyDataSetChanged();
+        super.onStop();
+    }
 }
