@@ -1,7 +1,5 @@
 package by.minsk.angurets.calculator;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -45,7 +43,7 @@ public class CalculatorActivity extends ActionBarActivity {
         findViewById(R.id.compute_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Compute operator = receivingOperator();
+                Compute operator = getOperator();
                 if (operator == null) {
                     Toast.makeText(CalculatorActivity.this, R.string.incorrect_operator, Toast.LENGTH_SHORT)
                             .show();
@@ -57,7 +55,7 @@ public class CalculatorActivity extends ActionBarActivity {
         });
     }
 
-    private Compute receivingOperator() {
+    private Compute getOperator() {
         switch (mRadioGroup.getCheckedRadioButtonId()) {
             case View.NO_ID:
                 operatorNotSelect();
@@ -81,18 +79,8 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     public void operatorNotSelect() {
-        final AlertDialog.Builder builder =
-                new AlertDialog.Builder(CalculatorActivity.this);
-        builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                }
-        );
-        builder.setTitle(R.string.error_operator_not_select).setMessage(R.string.operator_not_select);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        OperatorNotSelectFragment.newInstance("Operator is not selected")
+                .show(getSupportFragmentManager(), "OPER_NOT_SELECT");
     }
 
     ;

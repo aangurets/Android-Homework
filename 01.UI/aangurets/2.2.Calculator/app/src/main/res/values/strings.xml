@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Калькулятор</string>
-    <string name="action_settings">Настройка</string>
-    <string name="num1">Операнд 1</string>
-    <string name="num2">Операнд 2</string>
-    <string name="Operation">Операции:</string>
-    <string name="sum">Суммирование</string>
-    <string name="subtr">Вычитание</string>
-    <string name="div">Деление</string>
-    <string name="mult">Умножение</string>
-    <string name="go">Считать</string>
-    <string name="result_format">Результат: %.2f</string>
-    <string name="history">История</string>
-    <string name="incorrect_operand">Неверный операнд</string>
-    <string name="incorrect_operator">Неверный оператор</string>
-    <string name="operator_not_select">Оператор не выбран. Пожалуйста, сделайте выбор.</string>
-    <string name="error_operator_not_select">ОШИБКА - ОПЕРАТОР НЕ ВЫБРАН</string>
-    <string name="error_incorrect_operand">ОШИБКА - Неверный операнд</string>
-    <string name="begin_to_calculate">Начинаю считать</string>
-    <string name="end_to_calculate">Подсчет окончен</string>
+    <string name="app_name">My calculator</string>
+    <string name="action_settings">Settings</string>
+    <string name="num1">Operand 1</string>
+    <string name="num2">Operand 2</string>
+    <string name="Operation">Operations:</string>
+    <string name="sum">Summ</string>
+    <string name="subtr">Subtraction</string>
+    <string name="div">Division</string>
+    <string name="mult">Multiplication</string>
+    <string name="go">Count</string>
+    <string name="operator_not_select">Operator is not selected. Please, select operator.</string>
+    <string name="incorrect_operator">Incorrect operator</string>
+    <string name="incorrect_operand">Incorrect operand</string>
+    <string name="result_format">Result: %.2f</string>
+    <string name="error_operator_not_select">ERROR - OPERATOR NOT SELECT</string>
+    <string name="error_incorrect_operand">ERROR - INCORRECT OPERAND</string>
+    <string name="history">History</string>
+    <string name="begin_to_calculate">Begin to calculate</string>
+    <string name="end_to_calculate">Ent to calculate</string>
 </resources>
