@@ -16,9 +16,9 @@ import by.aangurets.contacts.model.Contact;
 
 public class EditContactActivity extends Activity {
 
-    private int mContactPosition;
     private Contact mContact;
-    static final String ID_SELECTED_CONTACT = "selected mContact";
+    private int mContactPosition;
+    static final String ID_SELECTED_CONTACT = "selected contact";
     @InjectView(R.id.nameEditText)
     EditText mName;
     @InjectView(R.id.surnameEditText)
@@ -39,7 +39,7 @@ public class EditContactActivity extends Activity {
         ButterKnife.inject(this);
         List<Contact> mContacts = ContactsStorage.getAll();
         setTitle(R.string.edit_contact);
-        mContactPosition = getIntent().getIntExtra(ID_SELECTED_CONTACT, 0);
+        mContactPosition = getIntent().getIntExtra(ID_SELECTED_CONTACT, 2);
         mContact = mContacts.get(mContactPosition);
         fillingFields(mContact);
     }

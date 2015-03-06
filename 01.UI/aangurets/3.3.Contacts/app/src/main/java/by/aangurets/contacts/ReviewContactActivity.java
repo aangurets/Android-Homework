@@ -41,7 +41,6 @@ public class ReviewContactActivity extends Activity {
         mContactPosition = getIntent().getIntExtra(ID_SELECTED_CONTACT, 0);
         Contact contact = mContacts.get(mContactPosition);
         fillingFields(contact);
-
     }
 
     public void fillingFields(Contact contact) {

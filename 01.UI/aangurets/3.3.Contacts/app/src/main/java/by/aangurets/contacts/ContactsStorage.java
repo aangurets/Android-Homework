@@ -6,7 +6,6 @@ import java.util.List;
 import by.aangurets.contacts.model.Contact;
 
 public class ContactsStorage {
-
     public static List<Contact> mContacts = new ArrayList<>();
 
     private static List<Contact> fillingStorage() {
