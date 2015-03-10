@@ -75,7 +75,7 @@ public class ContactListActivity extends Activity {
                     return false;
                 }
 
-                mActionMode = getA().startActionMode(mActionModeCallback);
+                mActionMode = getAc().startActionMode(mActionModeCallback);
                 view.setSelected(true);
                 return true;
             }
