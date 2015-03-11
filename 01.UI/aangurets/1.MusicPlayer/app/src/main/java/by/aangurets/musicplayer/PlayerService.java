@@ -26,7 +26,7 @@ public class PlayerService extends IntentService {
         if (mMediaPlayer == null) {
             try {
                 mMediaPlayer = new MediaPlayer();
-                AssetFileDescriptor afd = getAssets().openFd("music.mp3");
+                AssetFileDescriptor afd = getAssets().openFd("tiesto.mp3");
                 mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.prepare();
