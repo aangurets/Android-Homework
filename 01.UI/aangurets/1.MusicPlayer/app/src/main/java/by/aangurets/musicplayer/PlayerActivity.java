@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-/**
- * Created by User on 23.02.2015.
- */
 public class PlayerActivity extends Activity {
 
     private boolean isPlay = false;

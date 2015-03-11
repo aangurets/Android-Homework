@@ -6,14 +6,10 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.widget.Toast;
 
 import java.io.IOException;
 
-/**
- * Created by User on 23.02.2015.
- */
 public class PlayerService extends IntentService {
 
     public final static String ACTION_PLAY = "by.aangurets.musicplayer.ACTION_PLAY";
@@ -31,23 +27,15 @@ public class PlayerService extends IntentService {
         super.onCreate();
         if (mMediaPlayer == null) {
             try {
-                initialization();
+                mMediaPlayer = new MediaPlayer();
+                AssetFileDescriptor afd = getAssets().openFd("music.mp3");
+                mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mMediaPlayer.prepare();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void initialization() throws IOException {
-        mMediaPlayer = new MediaPlayer();
-        try (AssetFileDescriptor afd = getAssets().openFd("tiesto.mp3");) {
-            mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            afd.close();
-        }
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaPlayer.prepare();
-        mMediaPlayer.setVolume(1f, 1f);
     }
 
     @Override
@@ -72,18 +60,15 @@ public class PlayerService extends IntentService {
         }
     }
 
-    private void pause() {
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
+    private void play() {
+        if (!mMediaPlayer.isPlaying()) {
+            mMediaPlayer.start();
         }
     }
 
-    private void play() {
-        try {
-            initialization();
-            mMediaPlayer.start();
-        } catch (IOException e) {
-            Toast.makeText(this, getString(R.string.ioexception) + e, Toast.LENGTH_SHORT).show();
+    private void pause() {
+        if (mMediaPlayer.isPlaying()) {
+            mMediaPlayer.pause();
         }
     }
 
