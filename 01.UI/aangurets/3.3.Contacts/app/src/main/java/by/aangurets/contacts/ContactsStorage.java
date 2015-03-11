@@ -1,7 +1,5 @@
 package by.aangurets.contacts;
 
-import android.view.MenuItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,10 @@ public class ContactsStorage {
             fillingStorage();
         }
         return mContacts;
+    }
+
+    public static Contact getContact(int position) {
+        return mContacts.get(position);
     }
 
     public static void addContact(Contact contact) {

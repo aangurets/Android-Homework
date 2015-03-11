@@ -1,33 +1,30 @@
 package by.aangurets.contacts;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
 
 import by.aangurets.contacts.model.Contact;
 
-public class ContactAdapter extends BaseAdapter {
+public class ContactAdapter extends ArrayAdapter<Contact> {
     static final String ID = "ID # ";
     static final String PHONE = "Phone number: ";
 
-    private List<Contact> mContacts;
+    private LayoutInflater mLayoutInflater;
 
-    public ContactAdapter(List<Contact> contacts) {
-        mContacts = contacts;
-    }
-
-    @Override
-    public int getCount() {
-        return mContacts.size();
+    public ContactAdapter(Context context, List<Contact> contacts) {
+        super(context, android.R.layout.simple_list_item_1, android.R.id.text1, contacts);
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public Contact getItem(int position) {
-        return mContacts.get(position);
+        return ContactsStorage.getContact(position);
     }
 
     @Override
@@ -45,9 +42,9 @@ public class ContactAdapter extends BaseAdapter {
         }
         TextView mNameTextView = (TextView) mView.findViewById(R.id.name_contact_list);
         TextView mPhoneTextView = (TextView) mView.findViewById(R.id.phone_contact_list);
-        mNameTextView.setText(ID + getItem(position).getId() + " " + getItem(position).getName());
+        mNameTextView.setText(ID + getItem(position).getId() + " " + getItem(position).getName()
+                + " " + getItem(position).getSurname());
         mPhoneTextView.setText(PHONE + getItem(position).getPhone());
         return mView;
     }
-
 }
