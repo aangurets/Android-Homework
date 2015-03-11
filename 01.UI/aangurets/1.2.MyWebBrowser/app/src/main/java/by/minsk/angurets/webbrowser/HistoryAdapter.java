@@ -1,4 +1,4 @@
-package by.minsk.angurets.mywebbrowser;
+package by.minsk.angurets.webbrowser;
 
 
 import android.content.Context;
@@ -12,24 +12,16 @@ import java.util.List;
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
-    private List<HistoryItem> mHistoryItems;
     private LayoutInflater mLayoutInflater;
 
     public HistoryAdapter(Context context, List<HistoryItem> historyItems) {
         super(context, android.R.layout.simple_list_item_1, android.R.id.text1, historyItems);
-        mHistoryItems = historyItems;
-        mLayoutInflater =
-                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        return mHistoryItems.size();
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public HistoryItem getItem(int position) {
-        return mHistoryItems.get(position);
+        return HistoryStorage.getHistoryItem(position);
     }
 
     @Override

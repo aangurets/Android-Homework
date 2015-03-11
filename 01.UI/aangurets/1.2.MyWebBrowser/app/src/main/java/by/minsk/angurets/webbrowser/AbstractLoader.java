@@ -1,4 +1,4 @@
-package by.minsk.angurets.mywebbrowser;
+package by.minsk.angurets.webbrowser;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
@@ -33,7 +33,7 @@ public abstract class AbstractLoader<E> extends AsyncTaskLoader<E> {
     @Override
     public void deliverResult(E data) {
         if (isReset()) {
-            liberationResources(data);
+            freeResources(data);
             return;
         }
 
@@ -45,7 +45,7 @@ public abstract class AbstractLoader<E> extends AsyncTaskLoader<E> {
         }
 
         if (oldData != null && oldData != data) {
-            liberationResources(oldData);
+            freeResources(oldData);
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class AbstractLoader<E> extends AsyncTaskLoader<E> {
         onStopLoading();
 
         if (mData != null) {
-            liberationResources(mData);
+            freeResources(mData);
             mData = null;
         }
 
@@ -80,9 +80,9 @@ public abstract class AbstractLoader<E> extends AsyncTaskLoader<E> {
     @Override
     public void onCanceled(E data) {
         super.onCanceled(data);
-        liberationResources(data);
+        freeResources(data);
     }
 
-    protected void liberationResources(E data) {
+    protected void freeResources(E data) {
     }
 }

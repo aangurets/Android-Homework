@@ -1,8 +1,5 @@
-package by.minsk.angurets.mywebbrowser;
+package by.minsk.angurets.webbrowser;
 
-/**
- * Created by User on 28.02.2015.
- */
 public class HistoryItem {
 
     private String mUrl;

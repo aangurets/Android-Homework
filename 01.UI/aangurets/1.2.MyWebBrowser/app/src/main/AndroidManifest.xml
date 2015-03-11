@@ -1,5 +1,5 @@
 <manifest
-    package="by.minsk.angurets.mywebbrowser"
+    package="by.minsk.angurets.webbrowser"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -10,17 +10,17 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".BrowserActivity"
+            android:name="by.minsk.angurets.webbrowser.BrowserActivity"
             android:label="@string/app_name"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
-                <data android:scheme="http"/>
+                <data android:scheme="https"/>
             </intent-filter>
         </activity>
             <activity
-               android:name=".HistoryActivity"
+               android:name="by.minsk.angurets.webbrowser.HistoryActivity"
                android:label="@string/app_name"/>
     </application>
 

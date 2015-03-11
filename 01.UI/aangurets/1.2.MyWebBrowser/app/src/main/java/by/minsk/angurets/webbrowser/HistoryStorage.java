@@ -1,4 +1,4 @@
-package by.minsk.angurets.mywebbrowser;
+package by.minsk.angurets.webbrowser;
 
 import java.util.ArrayList;
 import java.util.List;

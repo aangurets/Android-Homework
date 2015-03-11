@@ -1,4 +1,4 @@
-package by.minsk.angurets.mywebbrowser;
+package by.minsk.angurets.webbrowser;
 
 import android.app.LoaderManager;
 import android.content.*;
@@ -12,27 +12,32 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by aangurets on 07.02.2015.
- */
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class BrowserActivity extends ActionBarActivity
-        implements LoaderManager.LoaderCallbacks<List<HistoryItem>>{
+        implements LoaderManager.LoaderCallbacks<List<HistoryItem>> {
 
-    private EditText mUrl;
-    private ImageButton mOpenButton;
-    private ImageButton mBackButton;
-    private ImageButton mForwardButton;
-    private ImageButton mHistoryButton;
-    private String mTempURI;
-    private WebView mWebView;
-    public static final String PREFIX = "http://";
+    public static final String PREFIX = "https://";
     public static final String URL = "URL";
     public static final int LOADER_ID = 1;
-    private List<HistoryItem> mHistoryItems;
+
+    @InjectView(R.id.url)
+    EditText mUrl;
+    @InjectView(R.id.open_button)
+    ImageButton mOpenButton;
+    @InjectView(R.id.back_button)
+    ImageButton mBackButton;
+    @InjectView(R.id.forward_button)
+    ImageButton mForwardButton;
+    @InjectView(R.id.history_button)
+    ImageButton mHistoryButton;
+    @InjectView(R.id.webView)
+    WebView mWebView;
+
+    private String mTempURL;
 
 
     @Override
@@ -40,22 +45,11 @@ public class BrowserActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browser_layout);
 
-        mUrl = (EditText) findViewById(R.id.url);
-        mOpenButton = (ImageButton) findViewById(R.id.open_button);
-        mBackButton = (ImageButton) findViewById(R.id.back_button);
-        mForwardButton = (ImageButton) findViewById(R.id.forward_button);
-        mHistoryButton = (ImageButton) findViewById(R.id.history_button);
-        mWebView = (WebView) findViewById(R.id.webView);
-
+        ButterKnife.inject(this);
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
-        if (savedInstanceState == null) {
-            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-            if (preferences.contains(URL)) {
-                String url = preferences.getString(URL, null);
-                mWebView.loadUrl(url);
-            }
-        }
+        repairingUrl(savedInstanceState);
+
         mBackButton.setEnabled(false);
         mForwardButton.setEnabled(false);
 
@@ -65,40 +59,19 @@ public class BrowserActivity extends ActionBarActivity
         mOpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HistoryStorage.addToHistoryItems(new HistoryItem(mUrl.getText().toString()));
-                mBackButton.setEnabled(true);
-                if (mUrl.getText().toString().startsWith(PREFIX)) {
-                    mWebView.loadUrl(mUrl.getText().toString());
-                } else {
-                    mWebView.loadUrl(PREFIX + mUrl.getText().toString());
-                }
+                openButtonAction();
             }
         });
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mForwardButton.setEnabled(true);
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    mBackButton.setEnabled(false);
-                    Toast.makeText(
-                            BrowserActivity.this, R.string.show_back, Toast.LENGTH_LONG)
-                            .show();
-                }
+                backButtonAction();
             }
         });
         mForwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mWebView.canGoForward()) {
-                    mWebView.goForward();
-                } else {
-                    mForwardButton.setEnabled(false);
-                    Toast.makeText(
-                            BrowserActivity.this, R.string.show_forward, Toast.LENGTH_LONG)
-                            .show();
-                }
+                forwardButtonAction();
             }
         });
         mHistoryButton.setOnClickListener(new View.OnClickListener() {
@@ -110,39 +83,85 @@ public class BrowserActivity extends ActionBarActivity
         });
     }
 
+    private void forwardButtonAction() {
+        if (mWebView.canGoForward()) {
+            mWebView.goForward();
+        } else {
+            mForwardButton.setEnabled(false);
+            Toast.makeText(
+                    this, R.string.show_forward, Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    private void backButtonAction() {
+        mForwardButton.setEnabled(true);
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            mBackButton.setEnabled(false);
+            Toast.makeText(
+                    this, R.string.show_back, Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    private void openButtonAction() {
+        HistoryStorage.addToHistoryItems(new HistoryItem(mUrl.getText().toString()));
+        mBackButton.setEnabled(true);
+        if (mUrl.getText().toString().startsWith(PREFIX)) {
+            mWebView.loadUrl(mUrl.getText().toString());
+        } else {
+            mWebView.loadUrl(PREFIX + mUrl.getText().toString());
+        }
+    }
+
+    private void repairingUrl(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            if (preferences.contains(URL)) {
+                String url = preferences.getString(URL, null);
+                mWebView.loadUrl(url);
+            }
+        }
+    }
+
+
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
         if (isFinishing()) {
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(URL, mWebView.getUrl());
             editor.apply();
         }
-        super.onDestroy();
+        super.onStop();
     }
 
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        mTempURI = mWebView.getUrl();
-        state.putString("url", mTempURI);
+        mTempURL = mWebView.getUrl();
+        state.putString("url", mTempURL);
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mTempURI = savedInstanceState.getString("url");
-        mWebView.loadUrl(mTempURI);
-        mUrl.setText(mTempURI);
+        mTempURL = savedInstanceState.getString("url");
+        mWebView.loadUrl(mTempURL);
+        mUrl.setText(mTempURL);
     }
 
 
     @Override
     public Loader<List<HistoryItem>> onCreateLoader(int id, Bundle args) {
-        return new HistoryItemLoader(this, mHistoryItems);
+        return new HistoryItemLoader(this, HistoryStorage.getHistoryItems());
     }
 
     @Override
     public void onLoadFinished(Loader<List<HistoryItem>> loader, List<HistoryItem> data) {
-
+        if (data != null) {
+            data.clear();
+        }
     }
 
     @Override
@@ -160,7 +179,7 @@ public class BrowserActivity extends ActionBarActivity
 
         @Override
         public List<HistoryItem> loadInBackground() {
-                return historyItems;
+            return historyItems;
         }
     }
 }

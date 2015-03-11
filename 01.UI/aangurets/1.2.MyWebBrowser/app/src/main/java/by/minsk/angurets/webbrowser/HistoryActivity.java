@@ -1,4 +1,4 @@
-package by.minsk.angurets.mywebbrowser;
+package by.minsk.angurets.webbrowser;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
