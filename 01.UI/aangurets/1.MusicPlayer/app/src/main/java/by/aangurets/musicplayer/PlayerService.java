@@ -1,12 +1,10 @@
 package by.aangurets.musicplayer;
 
-import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.widget.Toast;
 
 import java.io.IOException;
 
