@@ -11,9 +11,10 @@ import java.util.List;
 import by.aangurets.contacts.model.Contact;
 
 public class ContactAdapter extends BaseAdapter {
-    private List<Contact> mContacts;
     static final String ID = "ID # ";
     static final String PHONE = "Phone number: ";
+
+    private List<Contact> mContacts;
 
     public ContactAdapter(List<Contact> contacts) {
         mContacts = contacts;

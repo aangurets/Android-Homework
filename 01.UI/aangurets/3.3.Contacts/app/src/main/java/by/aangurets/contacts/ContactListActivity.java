@@ -22,10 +22,12 @@ import by.aangurets.contacts.model.Contact;
 
 public class ContactListActivity extends Activity {
     private static List<Contact> mContactsList = new ArrayList<>();
-    BaseAdapter mAdapter;
+    private static final String QUESTION = "Are you sure you want to delete a contact: ";
     static final String ID_SELECTED_CONTACT = "selected contact";
+
+    BaseAdapter mAdapter;
     private ListView mMListView;
-    private ActionMode mActionMode;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -35,12 +37,14 @@ public class ContactListActivity extends Activity {
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_contact:
-                acceptDelete();
+                acceptDelete(item);
                 mAdapter.notifyDataSetChanged();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private ActionMode mActionMode;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,18 +73,7 @@ public class ContactListActivity extends Activity {
                 startActivity(intent);
             }
         });
-        mMListView.setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View view) {
-                if (mActionMode != null) {
-                    return false;
-                }
-
-                mActionMode = getAc().startActionMode(mActionModeCallback);
-                view.setSelected(true);
-                return true;
             }
-        });
-    }
 
     @Override
     protected void onStop() {
@@ -88,7 +81,7 @@ public class ContactListActivity extends Activity {
         super.onStop();
     }
 
-    private void acceptDelete() {
+    private void acceptDelete(MenuItem item) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(ContactListActivity.this);
         builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
             @Override
@@ -104,7 +97,8 @@ public class ContactListActivity extends Activity {
             }
         });
         builder.setTitle(R.string.agree_delete)
-                .setMessage(R.string.question);
+                .setMessage(QUESTION
+                        + ContactsStorage.getSelectItemName()+ " ?");
         builder.create().show();
     }
 
@@ -127,34 +121,4 @@ public class ContactListActivity extends Activity {
 //                return super.onContextItemSelected(item);
 //        }
 //    }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.context_menu, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.delete_contact_context:
-                    acceptDelete();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mode = null;
-        }
-    };
 }

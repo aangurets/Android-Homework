@@ -1,5 +1,7 @@
 package by.aangurets.contacts;
 
+import android.view.MenuItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +20,23 @@ public class ContactsStorage {
 
 
     public static List<Contact> getAll() {
-        if (mContacts.size() == 0) {fillingStorage();}
+        if (mContacts.size() == 0) {
+            fillingStorage();
+        }
         return mContacts;
     }
 
     public static void addContact(Contact contact) {
         mContacts.add(contact);
     }
+
     public static void deleteContact() {
-        mContacts.remove(mContacts.size()-1);
+        mContacts.remove(mContacts.size() - 1);
+    }
+
+    public static String getSelectItemName() {
+        int mId = mContacts.size() - 1;
+        String mName = mContacts.get(mId).getName() + " " + mContacts.get(mId).getSurname();
+        return mName;
     }
 }

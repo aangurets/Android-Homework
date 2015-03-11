@@ -16,9 +16,10 @@ import by.aangurets.contacts.model.Contact;
 
 public class EditContactActivity extends Activity {
 
+    static final String ID_SELECTED_CONTACT = "selected contact";
+
     private Contact mContact;
     private int mContactPosition;
-    static final String ID_SELECTED_CONTACT = "selected contact";
     @InjectView(R.id.nameEditText)
     EditText mName;
     @InjectView(R.id.surnameEditText)
