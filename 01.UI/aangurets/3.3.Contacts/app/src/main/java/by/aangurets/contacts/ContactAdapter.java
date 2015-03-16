@@ -36,7 +36,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View mView;
         if (convertView == null) {
-            mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_layout, parent, false);
+            mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact, parent, false);
         } else {
             mView = convertView;
         }

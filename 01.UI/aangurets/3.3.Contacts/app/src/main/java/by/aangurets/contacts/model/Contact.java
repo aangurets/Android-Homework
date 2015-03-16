@@ -1,11 +1,20 @@
 package by.aangurets.contacts.model;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
 public class Contact {
+
+    private static int mCount = 0;
+    private static String[] names =
+            new String[]{"John", "Paul", "Mike", "Jason", "Kasper", "Adam", "Alberto"};
+    public static String[] surnames =
+            new String[]{"Smith", "Addison", "Johnson", "Williams", "Crawford", "Holmes", "Mills"};
+    static final SimpleDateFormat SIMPLE_DATE_FORMAT =
+            new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
 
     private int mId;
     private String mName;
@@ -14,12 +23,6 @@ public class Contact {
     private String mEmail;
     private String mDateOfBirdth;
     private String mOccupation;
-    private static int mCount = 0;
-    private static String[] names = new String[]{"John", "Paul", "Mike", "Jason", "Kasper", "Andrei", "Vova",
-            "Kirill", "Edgar", "Timofei", "Egor"};
-    private static String[] surnames = new String[]{"Smith", "Loginov", "Ivanov", "Lukashenko", "Sedih",
-            "Bush", "Obama", "Arafat", "Limonov", "Orlov", "Asad"};
-    static SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
 
     public Contact() {
         mId = ++mCount;
@@ -77,17 +80,28 @@ public class Contact {
         mOccupation = occupation;
     }
 
-    public static Contact generateNewContact() {
+    public static ArrayList<Contact> fillContacts(ArrayList<Contact> contacts) {
+        if (contacts.size() == 0) {
+            for (int i = 0; i < 50; i++) {
+                {
+                    contacts.add(getContact());
+                }
+            }
+        }
+        return contacts;
+    }
+
+    public static Contact getContact() {
         Random random = new Random();
         int randomPhone = random.nextInt(9000000);
         int randomId = random.nextInt(20);
-        int randomName = random.nextInt(11);
+        int randomName = random.nextInt(6);
         Contact contact = new Contact();
-        contact.setName(names[randomName]);
-        contact.setSurname(surnames[randomName]);
-        contact.setDateOfBirdth(df.format(new Date()));
+        contact.setName(Contact.names[randomName]);
+        contact.setSurname(Contact.surnames[randomName]);
+        contact.setDateOfBirdth(SIMPLE_DATE_FORMAT.format(new Date()));
         contact.setPhone("" + randomPhone);
-        contact.setEmail(names[randomName] + randomId + "@gmail.com");
+        contact.setEmail(Contact.names[randomName] + randomId + "@gmail.com");
         contact.setOccupation("Junior Android Developer");
         return contact;
     }

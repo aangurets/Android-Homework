@@ -8,13 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import by.aangurets.contacts.model.Contact;
 
-public class ReviewContactActivity extends Activity {
+public class ViewContactActivity extends Activity {
 
     static final String ID_SELECTED_CONTACT = "selected contact";
 
@@ -36,12 +34,14 @@ public class ReviewContactActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.review_contact_layout);
+        setContentView(R.layout.view_contact_activity);
+
         ButterKnife.inject(this);
+
         setTitle(R.string.review_contact);
-        List<Contact> mContacts = ContactsStorage.getAll();
+
         mContactPosition = getIntent().getIntExtra(ID_SELECTED_CONTACT, 0);
-        Contact contact = mContacts.get(mContactPosition);
+        Contact contact = ContactsStorage.getAll().get(mContactPosition);
         fillingFields(contact);
     }
 
@@ -65,7 +65,7 @@ public class ReviewContactActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_contact:
-                Intent intent = new Intent(ReviewContactActivity.this, EditContactActivity.class);
+                Intent intent = new Intent(ViewContactActivity.this, EditContactActivity.class);
                 intent.putExtra(ID_SELECTED_CONTACT, mContactPosition);
                 startActivity(intent);
                 return true;

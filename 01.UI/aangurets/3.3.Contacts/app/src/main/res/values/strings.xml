@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Application Contacts</string>
+    <string name="view_label">View contact activity</string>
+    <string name="edit_label">Edit contact activity</string>
+    <string name="list_label">Contact list activity</string>
     <string name="edit_contact_form">Contact Edit Form</string>
     <string name="review_contact">Contact Review Form</string>
     <string name="Surname">Surname</string>
@@ -18,4 +21,5 @@
     <string name="delete_contact">Delete</string>
     <string name="agree">Agree</string>
     <string name="agree_delete">Agree delete</string>
+    <string name="question">Are you sure you want to delete a contact:</string>
 </resources>

@@ -6,33 +6,33 @@
               >
 
     <TextView
-        style="@style/TextStyle"
+        style="@style/ViewContactText"
         android:text="@string/name"
         android:id="@+id/nameTextView"
         />
 
     <TextView
-        style="@style/TextStyle"
+        style="@style/ViewContactText"
         android:text="@string/Surname"
         android:id="@+id/surnameTextView"/>
 
     <TextView
-        style="@style/TextStyle"
+        style="@style/ViewContactText"
         android:text="@string/phone"
         android:id="@+id/phoneTextView"/>
 
     <TextView
-        style="@style/TextStyle"
+        style="@style/ViewContactText"
         android:text="@string/email"
         android:id="@+id/emailAddressTextView"/>
 
     <TextView
-        style="@style/TextStyle"
+        style="@style/ViewContactText"
         android:text="@string/date"
         android:id="@+id/dateTextView"/>
 
     <TextView
-        style="@style/TextStyle"
+        style="@style/ViewContactText"
         android:id="@+id/occupationTextView"
         android:text="@string/occupation"/>
 
