@@ -54,7 +54,7 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_contact:
-                ContactsStorage.addContact(Contact.getContact());
+                ContactsStorage.addContact(GenerationOfContact.generateContact());
                 updateList();
                 return true;
             case R.id.delete_contact:

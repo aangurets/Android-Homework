@@ -1,22 +1,12 @@
 package by.aangurets.contacts.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
+
+import by.aangurets.contacts.GenerationOfContact;
 
 public class Contact {
 
     private static int mCount = 0;
-
-    private static String[] names =
-            new String[]{"John", "Paul", "Mike", "Jason", "Kasper", "Adam", "Alberto"};
-    public static String[] surnames =
-            new String[]{"Smith", "Addison", "Johnson", "Williams", "Crawford", "Holmes", "Mills"};
-
-    static final SimpleDateFormat SIMPLE_DATE_FORMAT =
-            new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
 
     private int mId;
     private String mName;
@@ -86,26 +76,11 @@ public class Contact {
         if (contacts.size() == 0) {
             for (int i = 0; i < 50; i++) {
                 {
-                    contacts.add(getContact());
+                    contacts.add(GenerationOfContact.generateContact());
                 }
             }
         }
         return contacts;
-    }
-
-    public static Contact getContact() {
-        Random random = new Random();
-        int randomPhone = random.nextInt(9000000);
-        int randomId = random.nextInt(20);
-        int randomName = random.nextInt(6);
-        Contact contact = new Contact();
-        contact.setName(Contact.names[randomName]);
-        contact.setSurname(Contact.surnames[randomName]);
-        contact.setDateOfBirdth(SIMPLE_DATE_FORMAT.format(new Date()));
-        contact.setPhone("" + randomPhone);
-        contact.setEmail(Contact.names[randomName] + randomId + "@gmail.com");
-        contact.setOccupation("Junior Android Developer");
-        return contact;
     }
 
     @Override
