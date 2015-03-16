@@ -9,10 +9,12 @@ import java.util.Random;
 public class Contact {
 
     private static int mCount = 0;
+
     private static String[] names =
             new String[]{"John", "Paul", "Mike", "Jason", "Kasper", "Adam", "Alberto"};
     public static String[] surnames =
             new String[]{"Smith", "Addison", "Johnson", "Williams", "Crawford", "Holmes", "Mills"};
+
     static final SimpleDateFormat SIMPLE_DATE_FORMAT =
             new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
 
