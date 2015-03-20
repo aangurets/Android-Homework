@@ -23,28 +23,27 @@ import by.aangurets.contacts.model.Contact;
 
 public class ContactListActivity extends Activity implements LoaderManager.LoaderCallbacks<List<Contact>> {
 
-    static final String ID_SELECTED_CONTACT = "selected contact";
+    public static final String POSITION_OF_THE_SELECTED_CONTACT = "selected contact";
     public static final int LOADER_ID = 1;
 
-    private ListView mMListView;
+    private ListView mContactList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contacts_activity);
 
-        mMListView = (ListView) findViewById(R.id.listView);
+        mContactList = (ListView) findViewById(R.id.listView);
 
         setTitle(R.string.app_name);
 
+        mContactList.setAdapter(new ContactAdapter(this, new ArrayList<Contact>()));
         getLoaderManager().initLoader(LOADER_ID, null, this);
-
-        mMListView.setAdapter(new ContactAdapter(this, ContactsStorage.getAll()));
-        mMListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mContactList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ContactListActivity.this, ViewContactActivity.class);
-                intent.putExtra(ID_SELECTED_CONTACT, position);
+                intent.putExtra(POSITION_OF_THE_SELECTED_CONTACT, position);
                 startActivity(intent);
             }
         });
@@ -58,7 +57,7 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
                 updateList();
                 return true;
             case R.id.delete_contact:
-                acceptDelete(item);
+                confirmRemoval();
                 updateList();
                 return true;
         }
@@ -72,7 +71,7 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void acceptDelete(MenuItem item) {
+    private void confirmRemoval() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(ContactListActivity.this);
         builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
             @Override
@@ -89,12 +88,12 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
         });
         builder.setTitle(R.string.agree_delete)
                 .setMessage(R.string.question
-                        + " " + ContactsStorage.getSelectItemName() + " ?");
+                        + ' ' + ContactsStorage.getSelectItemName() + " ?");
         builder.create().show();
     }
 
     private void updateList() {
-        ((BaseAdapter) mMListView.getAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) mContactList.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -104,9 +103,8 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<List<Contact>> loader, List<Contact> data) {
-        if (data != null) {
-            data.clear();
-        }
+        mContactList.setAdapter(new ContactAdapter(this, data));
+        updateList();
     }
 
     @Override
@@ -120,9 +118,7 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
         updateList();
     }
 
-    static class ContactsLoader extends AbstractLoader<List<Contact>> {
-
-        private ArrayList<Contact> contacts;
+    private static class ContactsLoader extends AbstractLoader<List<Contact>> {
 
         ContactsLoader(Context context) {
             super(context);
@@ -130,7 +126,7 @@ public class ContactListActivity extends Activity implements LoaderManager.Loade
 
         @Override
         public List<Contact> loadInBackground() {
-            return contacts;
+            return ContactsStorage.getAll();
         }
     }
 }

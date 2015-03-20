@@ -15,11 +15,9 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
     static final String ID = "ID # ";
     static final String PHONE = "Phone number: ";
 
-    private LayoutInflater mLayoutInflater;
-
     public ContactAdapter(Context context, List<Contact> contacts) {
         super(context, android.R.layout.simple_list_item_1, android.R.id.text1, contacts);
-        mLayoutInflater = LayoutInflater.from(context);
+        LayoutInflater.from(context);
     }
 
     @Override
