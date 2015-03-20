@@ -10,18 +10,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
+import by.minsk.angurets.webbrowser.model.HistoryItem;
 
-    private LayoutInflater mLayoutInflater;
+public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
+    List<HistoryItem> mHistoryItems;
 
     public HistoryAdapter(Context context, List<HistoryItem> historyItems) {
         super(context, android.R.layout.simple_list_item_1, android.R.id.text1, historyItems);
-        mLayoutInflater = LayoutInflater.from(context);
+        mHistoryItems = historyItems;
+        LayoutInflater.from(context);
     }
 
     @Override
     public HistoryItem getItem(int position) {
-        return HistoryStorage.getHistoryItem(position);
+        return mHistoryItems.get(position);
     }
 
     @Override
@@ -33,11 +35,12 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View mView = convertView;
         if (mView == null) {
-            mView = mLayoutInflater.inflate(R.layout.history_item, parent, false);
+            mView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.history_item, parent, false);
         }
-        HistoryItem mHistoryItem = HistoryStorage.getHistoryItem(position);
+        HistoryItem mHistoryItem = mHistoryItems.get(position);
         TextView mTextView = (TextView) mView.findViewById(R.id.history_item);
-        mTextView.setText(mHistoryItem.getUrl());
+        mTextView.setText(mHistoryItem.toString());
         return mView;
     }
 }

@@ -19,9 +19,9 @@
                 <data android:scheme="https"/>
             </intent-filter>
         </activity>
-            <activity
-               android:name="by.minsk.angurets.webbrowser.HistoryActivity"
-               android:label="@string/app_name"/>
+        <activity
+            android:name="by.minsk.angurets.webbrowser.HistoryActivity"
+            android:label="@string/app_name"/>
     </application>
 
 </manifest>

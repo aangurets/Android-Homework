@@ -3,19 +3,30 @@ package by.minsk.angurets.webbrowser;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.minsk.angurets.webbrowser.model.HistoryItem;
+
 public class HistoryStorage {
+    private static HistoryStorage sHistoryStorage;
 
-    public static List<HistoryItem> mHistoryItems = new ArrayList<>();
+    private List<HistoryItem> mHistoryItems;
 
-    public static List<HistoryItem> getHistoryItems() {
+    public HistoryStorage() {
+        mHistoryItems = new ArrayList<>();
+    }
+
+
+    public List<HistoryItem> getHistoryItems() {
         return mHistoryItems;
     }
 
-    public static HistoryItem getHistoryItem(int i) {
-        return mHistoryItems.get(i);
+    public void addToHistoryItems(HistoryItem item) {
+        mHistoryItems.add(item);
     }
 
-    public static void addToHistoryItems(HistoryItem item) {
-        mHistoryItems.add(item);
+    public static HistoryStorage getInstance() {
+        if (sHistoryStorage == null) {
+            sHistoryStorage = new HistoryStorage();
+        }
+        return sHistoryStorage;
     }
 }

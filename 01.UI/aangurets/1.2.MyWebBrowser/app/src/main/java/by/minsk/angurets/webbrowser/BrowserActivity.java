@@ -1,8 +1,6 @@
 package by.minsk.angurets.webbrowser;
 
-import android.app.LoaderManager;
 import android.content.*;
-import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -12,17 +10,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import by.minsk.angurets.webbrowser.model.HistoryItem;
 
-public class BrowserActivity extends ActionBarActivity
-        implements LoaderManager.LoaderCallbacks<List<HistoryItem>> {
+public class BrowserActivity extends ActionBarActivity {
 
     public static final String PREFIX = "https://";
     public static final String URL = "URL";
-    public static final int LOADER_ID = 1;
+
+    private HistoryStorage mHistoryStorage = HistoryStorage.getInstance();
 
     @InjectView(R.id.url)
     EditText mUrl;
@@ -43,11 +40,9 @@ public class BrowserActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.browser_layout);
+        setContentView(R.layout.browser_activity);
 
         ButterKnife.inject(this);
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-
         repairingUrl(savedInstanceState);
 
         mBackButton.setEnabled(false);
@@ -107,7 +102,7 @@ public class BrowserActivity extends ActionBarActivity
     }
 
     private void openButtonAction() {
-        HistoryStorage.addToHistoryItems(new HistoryItem(mUrl.getText().toString()));
+        mHistoryStorage.addToHistoryItems(new HistoryItem(mUrl.getText().toString()));
         mBackButton.setEnabled(true);
         if (mUrl.getText().toString().startsWith(PREFIX)) {
             mWebView.loadUrl(mUrl.getText().toString());
@@ -141,45 +136,13 @@ public class BrowserActivity extends ActionBarActivity
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         mTempURL = mWebView.getUrl();
-        state.putString("url", mTempURL);
+        state.putString(URL, mTempURL);
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mTempURL = savedInstanceState.getString("url");
+        mTempURL = savedInstanceState.getString(URL);
         mWebView.loadUrl(mTempURL);
         mUrl.setText(mTempURL);
-    }
-
-
-    @Override
-    public Loader<List<HistoryItem>> onCreateLoader(int id, Bundle args) {
-        return new HistoryItemLoader(this, HistoryStorage.getHistoryItems());
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<HistoryItem>> loader, List<HistoryItem> data) {
-        if (data != null) {
-            data.clear();
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<HistoryItem>> loader) {
-    }
-
-    static class HistoryItemLoader extends AbstractLoader<List<HistoryItem>> {
-
-        private List<HistoryItem> historyItems;
-
-        HistoryItemLoader(Context context, List<HistoryItem> historyItems) {
-            super(context);
-            historyItems = HistoryStorage.getHistoryItems();
-        }
-
-        @Override
-        public List<HistoryItem> loadInBackground() {
-            return historyItems;
-        }
     }
 }

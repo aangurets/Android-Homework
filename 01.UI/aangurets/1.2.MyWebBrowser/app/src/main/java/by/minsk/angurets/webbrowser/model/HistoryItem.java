@@ -1,4 +1,4 @@
-package by.minsk.angurets.webbrowser;
+package by.minsk.angurets.webbrowser.model;
 
 public class HistoryItem {
 
