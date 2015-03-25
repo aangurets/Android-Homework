@@ -100,4 +100,17 @@ public class Contact {
     public int hashCode() {
         return mId;
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "mPhone='" + mPhone + '\'' +
+                ", mId=" + mId +
+                ", mName='" + mName + '\'' +
+                ", mEmail='" + mEmail + '\'' +
+                ", mAddress='" + mAddress + '\'' +
+                ", mBirthDateView=" + mBirthDate +
+                ", mOccupation='" + mOccupation + '\'' +
+                '}';
+    }
 }
