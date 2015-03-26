@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              >
+
+    <TextView
+        style="@style/ViewContactText"
+        android:text="@string/name"
+        android:id="@+id/nameTextView"
+        />
+
+    <TextView
+        style="@style/ViewContactText"
+        android:text="@string/Surname"
+        android:id="@+id/surnameTextView"/>
+
+    <TextView
+        style="@style/ViewContactText"
+        android:text="@string/phone"
+        android:id="@+id/phoneTextView"/>
+
+    <TextView
+        style="@style/ViewContactText"
+        android:text="@string/email"
+        android:id="@+id/emailAddressTextView"/>
+
+    <TextView
+        style="@style/ViewContactText"
+        android:text="@string/date"
+        android:id="@+id/dateTextView"/>
+
+    <TextView
+        style="@style/ViewContactText"
+        android:id="@+id/occupationTextView"
+        android:text="@string/occupation"/>
+
+</LinearLayout>
