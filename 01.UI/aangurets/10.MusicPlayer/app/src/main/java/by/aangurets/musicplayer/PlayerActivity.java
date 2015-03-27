@@ -3,6 +3,7 @@ package by.aangurets.musicplayer;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
@@ -21,11 +22,9 @@ public class PlayerActivity extends Activity {
 
     @InjectView(R.id.play_pause)
     ImageButton mPlayPauseButton;
+
     @InjectView(R.id.stop)
     ImageButton mStopButton;
-    private NotificationManager mManager;
-    private NotificationCompat.Builder mBuilder;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,6 @@ public class PlayerActivity extends Activity {
 
 
         ButterKnife.inject(this);
-        mManager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(this);
 
         mPlayPauseButton.setImageDrawable(getStateListDrawable());
 
@@ -79,7 +76,7 @@ public class PlayerActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        Intent intent = new Intent(getApplicationContext(), PlayerService.class);
+        Intent intent = new Intent(this, PlayerService.class);
         if (isPlay) {
             stopPlaying(intent);
         } else {
@@ -90,23 +87,27 @@ public class PlayerActivity extends Activity {
 
     private void startPlaying(Intent intent) {
         intent.setAction(PlayerService.ACTION_PLAY);
-        mBuilder
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.musicplayer)
                 .setContentTitle("Play")
                 .setContentText("Start Playing")
                 .setContentIntent(PendingIntent.getService(this, ID, intent, PendingIntent.FLAG_CANCEL_CURRENT))
                 .setAutoCancel(true);
+        NotificationManager mManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mManager.notify(ID, mBuilder.build());
     }
 
     private void stopPlaying(Intent intent) {
         intent.setAction(PlayerService.ACTION_STOP);
-        mBuilder
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.musicplayer)
                 .setContentTitle("Stop")
                 .setContentText("Stop playing")
                 .setContentIntent(PendingIntent.getService(this, ID, intent, PendingIntent.FLAG_CANCEL_CURRENT))
                 .setAutoCancel(true);
+        NotificationManager mManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mManager.notify(ID, mBuilder.build());
     }
 }
