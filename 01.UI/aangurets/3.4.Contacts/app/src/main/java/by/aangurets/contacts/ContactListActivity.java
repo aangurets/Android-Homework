@@ -25,9 +25,7 @@ import by.aangurets.contacts.storage.ContactsStorage;
 public class ContactListActivity extends ListActivity
         implements LoaderManager.LoaderCallbacks<List<Contact>> {
 
-    private static final String QUESTION = "Are you sure you want to delete a contact?";
     private static final String POSITION_CONTACT = "position contact";
-    public static final int LOADER_ID = 2;
 
     private ListView mContactListView;
 
@@ -41,7 +39,7 @@ public class ContactListActivity extends ListActivity
         setTitle(R.string.app_name);
 
         mContactListView.setAdapter(new ContactAdapter(this, new ArrayList<Contact>()));
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+        getLoaderManager().initLoader(0, null, this);
         mContactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,7 +98,7 @@ public class ContactListActivity extends ListActivity
                 dialog.dismiss();
             }
         });
-        builder.setTitle(R.string.agree_delete).setMessage(QUESTION);
+        builder.setTitle(R.string.agree_delete).setMessage(R.string.question);
         builder.create().show();
     }
 

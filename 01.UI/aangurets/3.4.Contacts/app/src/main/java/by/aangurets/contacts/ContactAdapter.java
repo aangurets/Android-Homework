@@ -13,17 +13,12 @@ import by.aangurets.contacts.model.Contact;
 import by.aangurets.contacts.storage.ContactsStorage;
 
 public class ContactAdapter extends ArrayAdapter<Contact> {
-    static final String ID = "ID # ";
-    static final String PHONE = "Phone number: ";
+    static final String PREFIX_ID = "PREFIX_ID # ";
+    static final String PREFIX_PHONE = "Phone number: ";
 
     public ContactAdapter(Context context, List<Contact> contacts) {
         super(context, android.R.layout.simple_list_item_1, android.R.id.text1, contacts);
         LayoutInflater.from(context);
-    }
-
-    static class ViewHolder {
-        public TextView mNameTextView;
-        public TextView mPhoneTextView;
     }
 
     @Override
@@ -49,9 +44,14 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         } else {
             holder = (ViewHolder) mView.getTag();
         }
-        holder.mNameTextView.setText(ID + getItem(position).getId() + ' ' + getItem(position).getName()
+        holder.mNameTextView.setText(PREFIX_ID + getItem(position).getId() + ' ' + getItem(position).getName()
                 + ' ' + getItem(position).getSurname());
-        holder.mPhoneTextView.setText(PHONE + getItem(position).getPhone());
+        holder.mPhoneTextView.setText(PREFIX_PHONE + getItem(position).getPhone());
         return mView;
+    }
+
+    static class ViewHolder {
+        public TextView mNameTextView;
+        public TextView mPhoneTextView;
     }
 }

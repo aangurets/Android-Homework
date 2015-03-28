@@ -36,23 +36,25 @@ public class DataBase {
         fillingDataBase();
         List<Contact> mContacts = new ArrayList<>();
         Cursor cursor = mDataBase.query(TABLE_NAME, null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            int nameColumnIndex = cursor.getColumnIndex(NAME);
-            int surnameColumnIndex = cursor.getColumnIndex(SURNAME);
-            int phoneColumnIndex = cursor.getColumnIndex(PHONE);
-            int emailColumnIndex = cursor.getColumnIndex(EMAIL);
-            int dateColumnIndex = cursor.getColumnIndex(DATE);
-            int occupationColumnIndex = cursor.getColumnIndex(OCCUPATION);
-            do {
-                Contact contact = new Contact();
-                contact.setName(cursor.getString(nameColumnIndex));
-                contact.setSurname(cursor.getString(surnameColumnIndex));
-                contact.setPhone(cursor.getString(phoneColumnIndex));
-                contact.setEmail(cursor.getString(emailColumnIndex));
-                contact.setDateOfBirdth(cursor.getString(dateColumnIndex));
-                contact.setOccupation(cursor.getString(occupationColumnIndex));
-                mContacts.add(contact);
-            } while (cursor.moveToNext());
+        if (cursor != null && cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                int nameColumnIndex = cursor.getColumnIndex(NAME);
+                int surnameColumnIndex = cursor.getColumnIndex(SURNAME);
+                int phoneColumnIndex = cursor.getColumnIndex(PHONE);
+                int emailColumnIndex = cursor.getColumnIndex(EMAIL);
+                int dateColumnIndex = cursor.getColumnIndex(DATE);
+                int occupationColumnIndex = cursor.getColumnIndex(OCCUPATION);
+                do {
+                    Contact contact = new Contact();
+                    contact.setName(cursor.getString(nameColumnIndex));
+                    contact.setSurname(cursor.getString(surnameColumnIndex));
+                    contact.setPhone(cursor.getString(phoneColumnIndex));
+                    contact.setEmail(cursor.getString(emailColumnIndex));
+                    contact.setDateOfBirdth(cursor.getString(dateColumnIndex));
+                    contact.setOccupation(cursor.getString(occupationColumnIndex));
+                    mContacts.add(contact);
+                } while (cursor.moveToNext());
+            }
         }
         return mContacts;
     }
